@@ -1,0 +1,163 @@
+//Compass Includes
+@import "compass/utilities";
+@import "compass/css3";
+
+//Responsive mixin
+@import "inc/responsive.scss";
+
+//Vars
+@import "inc/varsmix.scss";
+
+$clr-active:#79D355;
+
+/*The wrapping div surrounding the carousel. Needed to position absolute elements*/
+
+.paw-carousel-wrap{
+	@include pie-clearfix;
+	position:relative;
+	margin-bottom:20px;
+}
+
+
+/*Transparent masks on either side of the carousel - remove if you don't need*/
+.paw-carousel-mask{
+	position:absolute;
+	height:100%;
+	width:9999px;
+	background:url(../images/trans-light.png);
+	z-index:102;
+	top:0;
+
+}
+
+.paw-carousel-mask-l{
+	left:-9999px;
+}
+
+.paw-carousel-mask-r{
+	right:-9999px;
+}
+
+/*Loading mask*/
+.paw-loading{
+	z-index:101;
+	background-color:$clr-lightest;
+	position:absolute;
+	width:100%;
+	height:100%;
+	text-align:center;
+	.inner{
+		position:absolute;
+		top:50%;
+		width:100%;
+		margin-top:-30px;
+	}
+	p{
+		margin-top:5px;
+	}
+}
+
+/*Carousel*/
+
+.paw-carousel{
+	position:relative;
+	overflow:visible !important;
+	height:370px;
+	nav{
+		position:absolute;
+		top:50%;
+		margin-top:-25px;
+		z-index:101;
+		width:100%;
+	}
+}
+
+.paw-carousel-media{
+	height:100%;
+	overflow:hidden;
+	position:absolute;
+}
+
+.paw-carousel-item{
+	@include float-left;
+	position:relative !important;
+	img{
+		display:block;
+		position:relative;
+		z-index:1;
+		margin-right:1px;
+	}
+	h3{
+		@include opacity(0.7);
+		position:absolute;
+		z-index:2;
+		top:10px;
+		left:10px;
+		padding:5px;
+		font-size:12px;
+		font-weight:600;
+		line-height: 140%;
+		background:#000;
+		color:$clr-lightest;
+	}
+}
+
+/*Next prev arrows*/
+
+.paw-carousel-prev{
+	@include opacity(0.7);
+	@include transition-duration(0.2s);
+	position:absolute;
+	top:0;
+	width:50px;
+	height:50px;
+	left:20px;
+	background:url(../images/arr-prev.png);
+	&:hover{
+		@include opacity(0.9);
+	}
+}
+.paw-carousel-next{
+	@extend .paw-carousel-prev;
+	left:auto;
+	right:20px;
+	background:url(../images/arr-next.png);
+}
+
+/*Thumbnail nav*/
+
+#paw-carousel-thumbs{
+	@include pie-clearfix;
+	li{
+		margin-right:10px;
+		margin-top:10px;
+		display:block;
+		border:2px solid $clr-lightest;
+		@include float-left;
+		&:first-child{
+			margin-right:11px;
+		}
+		&:last-child{
+			margin-right:0;
+			margin-left:1px;
+		}
+		&:hover{
+			border-color:lighten($clr-active,20%);
+			cursor:pointer;
+		}
+		&.active{
+			border-color:$clr-active;
+		}
+		img{
+			display:block;
+		}
+	}
+}
+
+/*At 1024px screen res stops the slideshow bleeding out it's container i.e. being full width*/
+
+@include respond-to(medium-screens){ 
+	.paw-carousel{
+		overflow:hidden !important;
+	}
+};

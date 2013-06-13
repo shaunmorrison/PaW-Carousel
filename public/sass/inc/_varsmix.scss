@@ -1,0 +1,91 @@
+//Layout vars
+$col-padding: 2px;
+$master-min-width: 280px;
+$master-max-width: 1100px;
+$scroll-space:30px;
+
+$scroll-space-rs-sml:15px;
+
+$space-lrg:60px;
+$space-med:40px;
+$space-sml:10px;
+
+$space-sec:10px;
+
+$space-internal:20px;
+
+$line-space:15px;
+$space-line:15px;
+
+$panel-pad:8px;
+
+//Colour Vars
+
+
+$clr-faint:#f3f3f3;
+
+$clr-lightest:#fff;
+
+
+$clr-1: #79D355;
+$clr-1-darker: darken($clr-1,10%);
+$clr-1-darker: darken($clr-1,20%);
+
+$clr-default: #20271B;
+
+
+
+//Font vars
+$font-default: helvetica, arial, sans-serif;
+$font-1: Trebuchet MS, sans-serif;
+
+$fs-default:15px;
+$fs-1:28px;
+$fs-2:26px;
+$fs-3:20px;
+$fs-4:18px;
+$fs-5:16px;
+
+$fs-sml:14px;
+$fs-x-sml:13px;
+$line-height-default:170%;
+
+
+//MIXINS
+//Need extras e.g. overflow and float to ensure IE7/8 play nice
+@mixin replace{
+	@include inline-block;
+	text-indent:-9999em;
+	overflow:hidden;
+	height:0px;
+	width:0px;
+	float:left;
+}
+
+@mixin un-underline{
+	text-decoration: none;
+	&:hover{
+		text-decoration:underline;
+	}
+}
+
+@mixin bg-block-text{
+	@include inline-block;
+	background-color:$clr-lightest;
+	padding:0 3px;
+	margin-bottom:0;
+	line-height: 140%;
+}
+
+.un-underline{
+	@include un-underline;
+}
+
+@mixin scale{
+	display:block;
+	max-width:100%;
+}
+
+.scale{
+	@include scale;
+}

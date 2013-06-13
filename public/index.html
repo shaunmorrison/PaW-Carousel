@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8">
+  	<title>A jQuery Infinite Responsive Carousel by Pictures &amp; Writing</title>
+  	<meta name="description" content="A jQuery plugin that creates a responsive carousel">
+  	<meta name="author" content="Pictures &amp; Writing / Shaun Morrison">
+  	<link rel="stylesheet" href="css/otherstyles.css">
+
+  	<link rel="stylesheet" href="css/pawcarousel.css">
+  	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  	<script src="js/pawcarousel.js"></script>
+  	<script>
+  		$(function(){
+  			$('.paw-carousel').pawCarousel();
+  		});
+  	</script>
+</head>
+<body>
+	<div class="master">
+		<div class="column twelve">
+			<h1>An infinite, responsive, full-width carousel <span class="hide-med-lrg"><br/></span>jQuery Plugin with thumbnail navigation</h1>
+			<p class="subtitle">Author: <a href="http://picturesandwriting.com" title="responsive web design and front-end development">Pictures &amp; Writing</a> / Shaun Morrison</p>
+		</div>
+	</div>
+	<div class="master">
+
+		<!--BEGIN PaW Carousel
+			- copy and paste this
+			- you may or may not want the 'master' class on the wrap - this is just the generic container class I use for the content width-->
+	  	<section class="paw-carousel-wrap">
+			<div class="paw-carousel">
+				<!--The loading overlay - remove if you don't want it-->
+				<div class="paw-loading">
+					<div class="inner">
+						<img src="images/ajax-loader.gif">
+						<p>Loading</p>
+					</div>
+				</div>
+				<div class="paw-carousel-media">
+					<div class="paw-carousel-item">
+						<img src="assets/media/egs/eg-01.jpg">
+						<h3>This is some description text</h3>
+					</div>
+					<div class="paw-carousel-item">
+						<a href="http://picturesandwriting.com" title="A link to Shaun's portfolio site">
+							<img src="assets/media/egs/eg-02.jpg">
+							<h3>This image has a link</h3>
+						</a>
+					</div>
+					<div class="paw-carousel-item">
+						<img src="assets/media/egs/eg-03.jpg">
+						<h3>This is some description text</h3>
+					</div>
+					<div class="paw-carousel-item">
+						<img src="assets/media/egs/eg-04.jpg">
+						<h3>This is some description text</h3>
+					</div>
+					<div class="paw-carousel-item">
+						<img src="assets/media/egs/eg-05.jpg">
+						<h3>This is some description text</h3>
+					</div>
+					<div class="paw-carousel-item">
+						<img src="assets/media/egs/eg-06.jpg">
+						<h3>This is some description text</h3>
+					</div>
+				</div>
+				<!--Next and previous links-->
+				<nav>
+					<ul>
+						<li><a href="#" class="paw-carousel-prev"><span class="replace">Previous</span></a></li>
+						<li><a href="#" class="paw-carousel-next"><span class="replace">Next</span></a></li>
+					</ul>
+				</nav>
+				<!--Left and right translucent masks - simply remove if not required-->
+				<div class="paw-carousel-mask paw-carousel-mask-l hide-med"></div>
+				<div class="paw-carousel-mask paw-carousel-mask-r hide-med"></div>
+			</div>
+			<!--Thumbnail navigation-->
+			<nav id="paw-carousel-thumbs">
+				<ul>
+					<li class="paw-carousel-nav-item"><img src="assets/media/egs/eg-t-01.jpg"></li>
+					<li class="paw-carousel-nav-item"><img src="assets/media/egs/eg-t-02.jpg"></li>
+					<li class="paw-carousel-nav-item"><img src="assets/media/egs/eg-t-03.jpg"></li>
+					<li class="paw-carousel-nav-item"><img src="assets/media/egs/eg-t-04.jpg"></li>
+					<li class="paw-carousel-nav-item"><img src="assets/media/egs/eg-t-05.jpg"></li>
+					<li class="paw-carousel-nav-item"><img src="assets/media/egs/eg-t-06.jpg"></li>
+				</ul>
+			</nav>
+		</section>
+		<!--END PaW Carousel-->
+		
+	</div>
+	<div class="master text-content">
+		<div class="column twelve">
+			<h2>How to use</h2>
+				<p>Find all files on Github <a href="https://github.com/shaunmorrison/PaW-Carousel"><strong>https://github.com/shaunmorrison/PaW-Carousel</strong></a>, or look at the source of this page; alternatively, follow the information below:</p>
+				<p>Include CSS, jQuery, PaW Carousel plugin and JS call in the head of the document e.g.</p>
+<pre><code>&lt;link rel="stylesheet" href="css/pawcarousel.css">
+&lt;script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">&lt;/script>
+&lt;script src="js/pawcarousel.js">&lt;/script>
+&lt;script>
+	$(function(){
+		$('.paw-carousel').pawCarousel();
+	});
+&lt;/script></code></pre>
+			<p>Add the HTML to your page e.g.</p>
+<pre><code>&lt;section class="paw-carousel-wrap">
+	&lt;div class="paw-carousel">
+		&lt;!--The loading overlay - remove if you don't want it-->
+		&lt;div class="paw-loading">
+			&lt;div class="inner">
+				&lt;img src="images/ajax-loader.gif">
+				&lt;p>Loading&lt;/p>
+			&lt;/div>
+		&lt;/div>
+		&lt;div class="paw-carousel-media">
+			&lt;div class="paw-carousel-item">
+				&lt;img src="assets/media/egs/eg-01.jpg">
+				&lt;h3>This is some description text&lt;/h3>
+			&lt;/div>
+			&lt;div class="paw-carousel-item">
+				&lt;a href="http://picturesandwriting.com" title="A link to Shaun's portolfio site">
+					&lt;img src="assets/media/egs/eg-02.jpg">
+					&lt;h3>This image has a link&lt;/h3>
+				&lt;/a>
+			&lt;/div>
+			&lt;div class="paw-carousel-item">
+				&lt;img src="assets/media/egs/eg-03.jpg">
+				&lt;h3>This is some description text&lt;/h3>
+			&lt;/div>
+		&lt;/div>
+		&lt;!--Next and previous links-->
+		&lt;nav>
+			&lt;ul>
+				&lt;li>&lt;a href="#" class="paw-carousel-prev">&lt;span class="replace">Previous&lt;/span>&lt;/a>&lt;/li>
+				&lt;li>&lt;a href="#" class="paw-carousel-next">&lt;span class="replace">Next&lt;/span>&lt;/a>&lt;/li>
+			&lt;/ul>
+		&lt;/nav>
+		&lt;!--Left and right translucent masks - simply remove if not required-->
+		&lt;div class="paw-carousel-mask paw-carousel-mask-l hide-med">&lt;/div>
+		&lt;div class="paw-carousel-mask paw-carousel-mask-r hide-med">&lt;/div>
+	&lt;/div>
+	&lt;!--Thumbnail navigation-->
+	&lt;nav id="paw-carousel-thumbs">
+		&lt;ul>
+			&lt;li class="paw-carousel-nav-item">&lt;img src="assets/media/egs/eg-t-01.jpg">&lt;/li>
+			&lt;li class="paw-carousel-nav-item">&lt;img src="assets/media/egs/eg-t-02.jpg">&lt;/li>
+			&lt;li class="paw-carousel-nav-item">&lt;img src="assets/media/egs/eg-t-03.jpg">&lt;/li>
+		&lt;/ul>
+	&lt;/nav>
+&lt;/section></code></pre>			
+				<h2>Options</h2>
+				<p>Call options the usual way e.g. </p>
+<pre><code>$('.paw-carousel').pawCarousel({
+	carouselItemCls: 'slide-item',
+	animSpeed: 1500,
+	alignment: 'left'
+});</code></pre>		
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Option name</th>
+							<th>Option default</th>
+							<th>Options</th>
+							<th>Option description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><strong>carouselItemCls</strong></td>
+							<td>'paw-carousel-item'</td>
+							<td>Any valid class name</td>
+							<td>The class that wraps each carousel item</td>
+						</tr>
+						<tr>
+							<td><strong>carouselNavItemCls</strong></td>
+							<td>'paw-carousel-nav-item'</td>
+							<td>Any valid class name</td>
+							<td>The class that wrap each nav/thumbnail item</td>
+						</tr>
+						<tr>
+							<td><strong>activeCls</strong></td>
+							<td>'active'</td>
+							<td>Any valid class name</td>
+							<td>The class of the active item in the carousel and the thumbnails</td>
+						</tr>
+						<tr>
+							<td><strong>carouselMediaCls</strong></td>
+							<td>'paw-carousel-media'</td>
+							<td>Any valid class name</td>
+							<td>The class of the DIV that contains the carousel items</td>
+						</tr>
+						<tr>
+							<td><strong>nextLinkCls</strong></td>
+							<td>'paw-carousel-next'</td>
+							<td>Any valid class name</td>
+							<td>The class of the next link</td>
+						</tr>
+						<tr>
+							<td><strong>prevLinkCls</strong></td>
+							<td>'paw-carousel-prev'</td>
+							<td>Any valid class name</td>
+							<td>The class of the prev link</td>
+						</tr>
+						<tr>
+							<td><strong>loadingCls</strong></td>
+							<td>'paw-loading'</td>
+							<td>Any valid class name</td>
+							<td>The class of the loading overlay</td>
+						</tr>
+						<tr>
+							<td><strong>animSpeed</strong></td>
+							<td>800</td>
+							<td>Any number in milliseconds</td>
+							<td>Animation speed of next/prev + thumbnail nav</td>
+						</tr>
+						<tr>
+							<td><strong>itemsClonedFromEdge</strong></td>
+							<td>3</td>
+							<td>Any number, but probably want 2 - 6</td>
+							<td>Determines when to activate a clone of all items. Defaults 3 from the edge of the start or end of the slideshow. If you have smaller images you may want to increase this number</td>
+						</tr>
+						<tr>
+							<td><strong>alignment</strong></td>
+							<td>'center'</td>
+							<td>'center', 'left', 'right'</td>
+							<td>Aligned the active item to the left, right or center of the carousel</td>
+						</tr>
+						<tr>
+							<td><strong>imageCrop</strong></td>
+							<td>true</td>
+							<td>true/false</td>
+							<td>The images are set to have a max width of the containing carousel. If <code>true</code> and the heights of the images are different because the images have been scaled according to width, the images are set to the smallest height and larger images will be cropped from the bottom. If <code>false</code> the carousel is set to take the tallest image (which leaves gaps underneath shorter images)</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<h2>FAQs</h2>
+			<div class="text-contain">
+				<h3>What can I do to support further development of this and other plugins like this?</h3>
+				<p>Well, it would be super for you to tell others about this plugin. If you have found it's saved you some time you may feel inclined to give me a modest amount of cash through PayPal: shaun@picturesandwriting.com</p>
+				<h3>What browsers does this work in?</h3>
+				<p>Newer versions of Firefox, Safari and Chrome; as well as IE7+. IE 7 &amp; 8 may have animation/performance issues depending on how many images you have.</p>
+				<h3>Can I have images at different sizes?</h3>
+				<p>All images should be the same height, but can be any width.</p>
+				<h3>What happens to different width images at smaller screen &amp; mobile sizes?</h3>
+				<p>The images are set to have a max width of the containing carousel. Currently, if the heights are different because the images have been scaled according to width, the images are set to the smallest height and larger images will be cropped from the bottom.</p>
+				<h3>How to remove the loading overlay?</h3>
+				<p>Simply remove the markup i.e.</p>
+<pre><code>&lt;div class="paw-loading">
+	&lt;div class="inner">
+		&lt;img src="images/ajax-loader.gif">
+		&lt;p>Loading&lt;/p>
+	&lt;/div>
+&lt;/div></code></pre>
+				<h3>Why not generate more of the markup through JS?</h3>
+				<p>I may change my mind about it the future, but I like to keep the JS small and lean. I am aware it could help eliminate human error e.g. forgetting to add the inner 'paw-carousel-media' DIV.</p>
+				<h3>Code Copyright and License</h3>
+				<p>Copyright &copy; 2013 Shaun Morrison</p>
+				<p>The PaW Carousel plugin is licensed under the GPL – <a href="http://www.gnu.org/licenses/gpl.html" title="View the GNU GPLv3 licence">http://www.gnu.org/licenses/gpl.html</a> license.</p>
+
+				<h3>Images / Photos Copyright</h3>
+				<p>Copyright &copy; 2013 Shaun Morrison</p>
+				<p>The images are under full copyright with no permission to share or distribute in either commercial or non-commercial instances. You may use them as examples for the PaW Carousel plugin on Github for Pull Requests.</p> 
+				<h3>Future developments</h3>
+				<ol>
+					<li>This this is my first 'proper' jQuery plugin &ndash; I expect the code could be optimised a little.</li>
+					<li>Doesn't yet have an API to add things like 'before' and 'after' events.</li>
+					<li>Doesn't currently transition automatically (like a slideshow). Unsure if anyone even wants this?</li>
+					<li>I'll largely leave it up to the public via Github to decide where this needs expansions/development.</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+	<footer>
+
+				&copy; 2013 Pictures &amp; Writing / Shaun Morrison. All rights reserved.
+
+	</footer>
+</body>
+</html>

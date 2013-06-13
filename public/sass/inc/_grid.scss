@@ -1,0 +1,78 @@
+/* DA GRID - A Digital Frontier... */
+
+//Grid mixin for whatever size.
+@mixin grid-cols($suffix:""){
+	.row#{$suffix} { width: auto; max-width: none; min-width: 0; margin-left: -$col-padding; margin-right: -$col-padding; padding:0;}
+	.column#{$suffix}, .columns#{$suffix} { @include float-left; min-height: 1px; padding: 0 $col-padding; position: relative; }
+	.right#{$suffix} {@include float-right;}
+	.one#{$suffix}, .row .one#{$suffix} { width: 8.33333%;}
+	.two#{$suffix}, .row .two#{$suffix} { width: 16.66667%;*width: 16.2%;}
+	.three#{$suffix}, .row .three#{$suffix} { width: 25%; *width: 24.6%;}
+	.four#{$suffix}, .row .four#{$suffix} { width: 33.33333%;}
+	.five#{$suffix}, .row .five#{$suffix} { width: 41.66667%;}
+	.six#{$suffix}, .row .six#{$suffix} { width: 50%;*width: 49.6%;}
+	.seven#{$suffix}, .row .seven#{$suffix} { width: 58.33333%;}
+	.eight#{$suffix}, .row .eight#{$suffix} { width: 66.66667%;}
+	.nine#{$suffix}, .row .nine#{$suffix} { width: 75%;}
+	.ten#{$suffix}, .row .ten#{$suffix} { width: 83.33333%;}
+	.eleven#{$suffix}, .row .eleven#{$suffix} { width: 91.66667%;}
+	.twelve#{$suffix}, .row .twelve#{$suffix} { width: 100%;}
+	.hide#{$suffix}{display:none !important;}
+	.show#{$suffix}{display:block !important;}
+	.panel#{$suffix} {padding:$panel-pad;}
+	.right#{$suffix} {@include float-right;}
+	.left#{$suffix} {@include float-left;}
+}
+
+.show-med-lrg,.show-med-lrg-ib,.show-med,.show-med-ib,.show-sml-med,.show-sml-med-ib,.show-sml2,.show-sml2-ib,.show-sml,.show-sml-ib,.show-x-sml,.show-x-sml-ib{
+	display:none !important;
+}
+
+
+*, *:before, *:after { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+
+
+.master{
+	@include pie-clearfix;
+	clear:both;
+	min-width: $master-min-width;
+	max-width: $master-max-width;
+	margin-right: auto;
+	margin-left: auto;
+	padding-left:$scroll-space;
+	padding-right:$scroll-space;
+}
+
+@include grid-cols();
+
+.panel{
+	padding:$panel-pad;
+}
+
+
+@include respond-to(medium-large-screens) { 
+	@include grid-cols(-med-lrg);
+}
+
+
+@include respond-to(medium-screens) { 
+	@include grid-cols(-med);
+};
+
+@include respond-to(small-medium-screens) { 
+	@include grid-cols(-sml-med);
+	.master{
+		padding-left:$scroll-space-rs-sml;
+		padding-right:$scroll-space-rs-sml;
+	}
+}
+
+@include respond-to(small-screens) { 
+	@include grid-cols(-sml);
+};
+
+@include respond-to(small-screens) { 
+	@include grid-cols(-x-sml);
+};
+
+
