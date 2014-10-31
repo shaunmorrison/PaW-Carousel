@@ -8,7 +8,11 @@
 //Vars
 @import "inc/varsmix.scss";
 
-$clr-active:#79D355;
+$clr-active:#4A90E2;
+
+%animate-opacity{
+	@include transition(opacity, 0.2s);
+}
 
 /*The wrapping div surrounding the carousel. Needed to position absolute elements*/
 
@@ -20,73 +24,49 @@ $clr-active:#79D355;
 
 
 /*Transparent masks on either side of the carousel - remove if you don't need*/
-.paw-carousel-mask{
+%paw-carousel-mask{
 	position:absolute;
 	height:100%;
 	width:9999px;
 	background:url(../images/trans-light.png);
 	z-index:102;
 	top:0;
-
 }
 
 .paw-carousel-mask-l{
+	@extend %paw-carousel-mask;
 	left:-9999px;
 }
 
 .paw-carousel-mask-r{
+	@extend %paw-carousel-mask;
 	right:-9999px;
 }
-
-/*Loading mask*/
-.paw-loading{
-	z-index:101;
-	background-color:$clr-lightest;
-	position:absolute;
-	width:100%;
-	height:100%;
-	text-align:center;
-	.inner{
-		position:absolute;
-		top:50%;
-		width:100%;
-		margin-top:-30px;
-	}
-	p{
-		margin-top:5px;
-	}
-}
-
-/*Carousel*/
 
 .paw-carousel{
 	position:relative;
 	overflow:visible !important;
 	height:370px;
-	nav{
-		position:absolute;
-		top:50%;
-		margin-top:-25px;
-		z-index:101;
-		width:100%;
-	}
+	
 }
 
-.paw-carousel-media{
+.paw-carousel-items-wrap{
 	height:100%;
 	overflow:hidden;
 	position:absolute;
+	top:0;
+	left:0;
 }
 
 .paw-carousel-item{
+	&.active{
+		background: url(../images/ajax-loader.gif) center no-repeat;
+	}
 	@include float-left;
 	position:relative !important;
-	img{
-		display:block;
-		position:relative;
-		z-index:1;
-		margin-right:1px;
-	}
+	margin-right: 2px;
+	max-width: 100%;
+
 	h3{
 		@include opacity(0.7);
 		position:absolute;
@@ -100,53 +80,103 @@ $clr-active:#79D355;
 		background:#000;
 		color:$clr-lightest;
 	}
+	&.cropped{
+		margin-right: 0;
+		overflow: hidden;
+		text-align:center;
+		.paw-carousel-item-media{
+			width: auto;
+			display:inline-block;
+		}
+		.paw-carousel-item-vid{
+			width: 100% !important;
+		}
+	}
+	&.paw-carousel-item-visible{
+		background:none;
+		.paw-carousel-item-media{
+			@include opacity(100);
+		}
+	}
 }
 
-/*Next prev arrows*/
-
-.paw-carousel-prev{
-	@include opacity(0.7);
-	@include transition-duration(0.2s);
+.paw-carousel-item-vid{
 	position:absolute;
-	top:0;
+	top: 0;
+	left: 0;
+}
+
+.paw-caoursel-item-vid-foundation{
+	max-width: 100%;
+}
+
+.paw-carousel-item-media{
+	@include transition(opacity, 0.8s);
+	@include opacity(0);
+	display:block;
+	z-index:1;
+	max-width: 9999px;
+}
+
+/*===================================
+=            Control nav            =
+===================================*/
+
+
+%ctrl-nav{
+	@extend %animate-opacity;
+	@include opacity(0.7);
+	position:absolute;
+	top:50%;
+	margin-top:-25px;
+	z-index:101;
 	width:50px;
 	height:50px;
-	left:20px;
-	background:url(../images/arr-prev.png);
 	&:hover{
 		@include opacity(0.9);
 	}
+	img{
+		display:block;
+	}
+}
+
+.paw-carousel-prev{
+	@extend %ctrl-nav;
+	left:20px;
 }
 .paw-carousel-next{
-	@extend .paw-carousel-prev;
-	left:auto;
+	@extend %ctrl-nav;
 	right:20px;
-	background:url(../images/arr-next.png);
 }
 
-/*Thumbnail nav*/
+/*=====================================
+=            Thumbnail nav            =
+=====================================*/
 
-#paw-carousel-thumbs{
+.paw-carousel-thumbs{
 	@include pie-clearfix;
 	li{
 		margin-right:10px;
 		margin-top:10px;
 		display:block;
 		border:2px solid $clr-lightest;
+		position:relative;
 		@include float-left;
-		&:first-child{
-			margin-right:11px;
-		}
 		&:last-child{
 			margin-right:0;
-			margin-left:1px;
 		}
 		&:hover{
+			.paw-carousel-icn-thumb-vid{
+				@include opacity(0.7);
+			}
 			border-color:lighten($clr-active,20%);
 			cursor:pointer;
 		}
 		&.active{
 			border-color:$clr-active;
+			.paw-carousel-icn-thumb-vid{
+				@include opacity(0.7);
+			}
 		}
 		img{
 			display:block;
@@ -154,10 +184,26 @@ $clr-active:#79D355;
 	}
 }
 
+.paw-carousel-icn-thumb-vid{
+	@extend %animate-opacity;
+	@include opacity(0.5);
+	position:absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -21px;
+	margin-top: -15px;
+	width: 42px;
+	height: 30px;
+	background: url(../images/icn-play.svg);
+}
+
 /*At 1024px screen res stops the slideshow bleeding out it's container i.e. being full width*/
 
 @include respond-to(medium-screens){ 
 	.paw-carousel{
 		overflow:hidden !important;
+	}
+	.paw-carousel-mask{
+		display:none;
 	}
 };

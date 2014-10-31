@@ -6,9 +6,6 @@ body{
 	font-size:$fs-default;
 	font-family:$font-default;
 	color:$clr-default;
-	&.mobile-browser{
-		-webkit-text-size-adjust:none;
-	}
 }
 
 a{
