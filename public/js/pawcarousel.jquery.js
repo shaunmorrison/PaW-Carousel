@@ -40,7 +40,6 @@
             var videoCls = 'paw-carousel-item-vid';
             var itemVisibleCls = 'paw-carousel-item-visible';
             var carouselItemNumPrefix = carouselItemCls + '-';
-            var loadingCls = settings.loadingCls;
 
             //Attr
             var origRatioAttr = 'data-paw-orig-ratio';
@@ -79,6 +78,7 @@
             var setsEachSide = settings.setsEachSide;
             var carouselHt = $carouselItem.first().height();
             var carouselItemSpace = settings.carouselItemSpace;
+            var animSpeed = settings.animSpeed;
 
             //Misc
             var origItemsStore;
@@ -89,12 +89,6 @@
 
             //Arrays
             var itemDetailsArr = [];
-
-            //Animation speed of next/prev + thumbnail nav
-            var animSpeed = settings.animSpeed;
-
-            //Determines when to activate a clone of all items. Defaults 3 from the edge of the start or end of the slideshow. If you have smaller images you may want to increase this number
-            //var itemsClonedFromEdge = settings.itemsClonedFromEdge;
 
             /*======================================
             =            Init functions            =
@@ -135,7 +129,6 @@
                 if(windowWidNew != windowWid || windowHtNew != windowHt){
                     screenDimensions();
                     carouselContainerDim();
-                    //videos();
                     setCalcItems();
                     carouselItemsWrapDimensions();
                     calcAnimVal(activeItemNum);
@@ -181,8 +174,6 @@
             function videos(init){
                 $carouselItem.find('iframe').each(function(){
                     var $vid = $(this);
-                    // var videoHt = $video.attr('height');
-                    // var videoWid = $video.attr('width');
                     var vidRatio = $vid.attr(origRatioAttr);
                     var vidWid = carouselContainerHt * vidRatio;
                     $vid.attr('height',carouselContainerHt);
@@ -409,8 +400,9 @@
             function loadImages($item){
                 //determine if retina and 2x image is present
                 var $img = $item.find('img.' + carouselItemMediaCls);
-                if(isRetina && $img.attr('data-src-2x')){
-                    var imgSrc = $img.attr('data-src-2x');
+                var imgSrc2x = $img.attr('data-src-2x');
+                if(isRetina && imgSrc2x != undefined){
+                    var imgSrc = imgSrc2x;
                 }else{
                     var imgSrc = $img.attr('data-src');
                     
@@ -477,7 +469,7 @@
             
             function pushSetItems(itemWid2){
                 setWid += itemWid2;
-                //Create an array obj
+                //Push to array obj containing set widths and position from start
                 itemDetailsArr.push({
                     'itemWid' : itemWid2,
                     'itemPosFromStart' : setWid
