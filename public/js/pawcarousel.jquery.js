@@ -188,12 +188,15 @@
             =            Stop video            =
             ==================================*/
             
-            function stopVideo($item){
-                var $vid = $item.find('iframe');
-                if($vid.length){
-                    var $vidSrc = $vid.attr('src');
-                    $vid.attr('src','');
-                    $vid.attr('src',$vidSrc);
+            function stopVideo($item,itemNum){
+                //stops Resetting on mobile devices as playing vid calls screen resize
+                if(itemNum != activeItemNum){
+                    var $vid = $item.find('iframe');
+                    if($vid.length){
+                        var $vidSrc = $vid.attr('src');
+                        $vid.attr('src','');
+                        $vid.attr('src',$vidSrc);
+                    }
                 }
             }
                 
@@ -286,7 +289,7 @@
                     sansAlignAnimVal =- (itemPosFromStart + (setWid * setsEachSide));
                     finalAnimVal = sansAlignAnimVal + alignmentVal;
                 }
-                stopVideo($prevActiveItem);
+                stopVideo($prevActiveItem,prevActiveItemNum);
             }
             
 
