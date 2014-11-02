@@ -8,6 +8,7 @@
 - Better loading of images to look smoother
 - More reliable video scaling 
 - More robust at all screen sizes
+- Choose whether to resize or crop images at smaller screen sizes
 - Must include image and video dimensions – solves a lot of headaches
 
 ## How to use

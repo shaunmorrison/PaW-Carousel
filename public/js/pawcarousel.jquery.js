@@ -16,11 +16,13 @@
             prevLinkCls:'paw-carousel-prev',
             activeCls: 'active',
             croppedCls: 'cropped',
+            scaledCls: 'scaled',
             carouselItemSpace: 'css',
             animSpeed:800,
             alignment:'center', 
             setsEachSide: 1,
-            carouselHtType: 'shortest'
+            carouselHtType: 'shortest',
+            carouselResizeType: 'cropped'
         },  
         settings = $.extend({}, defaults, options);  
 
@@ -35,10 +37,12 @@
             var carouselNavItemCls = settings.carouselNavItemCls;
             var activeCls = settings.activeCls;
             var croppedCls = settings.croppedCls;
+            var scaledCls = settings.scaledCls;
             var origItemCls = 'paw-carousel-item-orig';
             var videoFoundationElCls = 'paw-carousel-item-vid-foundation';
             var videoCls = 'paw-carousel-item-vid';
             var itemVisibleCls = 'paw-carousel-item-visible';
+            var cropCompCls = 'paw-carousel-crop-comp';
             var carouselItemNumPrefix = carouselItemCls + '-';
 
             //Attr
@@ -58,6 +62,8 @@
             var isRetina = false;
             var inAnimation = false;
             var hasBeenCropped = false;
+            var hasBeenScaled = false;
+            var thumbNav = false;
 
             //Integers
             var windowWid;
@@ -75,14 +81,16 @@
             var alignmentVal = 0;
             var firstItemAlignmentVal = 0;
             var lastItemAlignmentVal = 0;
+            var imagesLoaded = 0;
             var setsEachSide = settings.setsEachSide;
-            var carouselHt = $carouselItem.first().height();
+            var carouselHt = 0;
             var carouselItemSpace = settings.carouselItemSpace;
             var animSpeed = settings.animSpeed;
 
             //Misc
             var origItemsStore;
             var carouselHtType = settings.carouselHtType;
+            var carouselResizeType = settings.carouselResizeType;
 
             //Attr
             var itemNumAttr = 'data-paw-item-num';
@@ -96,13 +104,16 @@
             screenDimensions();
             isRetinaDisplay();
             carouselItemSpaceConvert();
+            thumbNavTest();
+            carouselHtValReset();
             addClsVideo();
             addOrigClsStyle();
-            
             carouselOrigItemsStart();
             carouselContainerDim();
-            videos(true);
+            videoInit();
             setCalcItems();
+            videoScaleResize();
+            removeImgDimAttr();
             storeOrigItems();
             for(var i = 0; i < setsEachSide; i++){
                 addSet('before');
@@ -130,6 +141,8 @@
                     screenDimensions();
                     carouselContainerDim();
                     setCalcItems();
+                    videoScaleResize();
+                    setCarouselHt();
                     carouselItemsWrapDimensions();
                     calcAnimVal(activeItemNum);
                     goToActive(0);
@@ -151,13 +164,23 @@
                 windowWid = $(window).width();
             }
 
+            /*=============================================
+            =            Thumb navigation test            =
+            =============================================*/
+            
+            function thumbNavTest(){
+                if($carousel.find('.' + carouselNavItemCls).length){
+                    thumbNav = true;
+                }
+            }
+
             /*=========================================
             =            Set carousel item            =
             =========================================*/
             
             function setCarouselItem(){
                 $carouselItem = $carousel.find('.'+carouselItemCls);
-            }      
+            }          
 
             /*================================================
             =            Add media class to video            =
@@ -168,20 +191,45 @@
             }
 
             /*===================================
-            =            Scale video            =
+            =            Videos init            =
             ===================================*/
             
-            function videos(init){
+            function videoInit(){
                 $carouselItem.find('iframe').each(function(){
                     var $vid = $(this);
-                    var vidRatio = $vid.attr(origRatioAttr);
-                    var vidWid = carouselContainerHt * vidRatio;
-                    $vid.attr('height',carouselContainerHt);
-                    $vid.attr('width',vidWid);
-                    if(init){
-                        videoFoundation($vid,vidWid);
-                    }
+                    videoScale($vid,true);
                 });
+            }
+
+            /*==========================================
+            =            Video scale resize            =
+            ==========================================*/
+            
+            function videoScaleResize(){
+                $carouselOrigItem.each(function(idx){
+                    var $item = $(this);
+                     var $vid = $item.find('iframe');
+                    if($vid.length){
+                        var $adjustItem = $carousel.find('.' + carouselItemNumPrefix + idx);
+                        $vid = $adjustItem.find('iframe');
+                        videoScale($vid);
+                    }
+                   
+                });
+            }
+            
+            /*===================================
+            =            Video scale            =
+            ===================================*/
+            
+            function videoScale($vid,init){
+                var vidRatio = $vid.attr(origRatioAttr);
+                var vidWid = carouselHt * vidRatio;
+                $vid.attr('height',carouselHt);
+                $vid.attr('width',vidWid);
+                if(init){
+                    videoFoundation($vid,vidWid);
+                }
             }
 
             /*==================================
@@ -199,6 +247,10 @@
                     }
                 }
             }
+
+            /*========================================
+            =            Video foundation            =
+            ========================================*/
                 
             function videoFoundation($vid,vidWid){
                 //Have to put invisible image containing video dimensions as width rescale isn't playing nice with iframes
@@ -206,6 +258,30 @@
                 $vid
                     .before(videoFoundationEl)
                     .addClass(videoCls);
+            }
+
+            /*=========================================================
+            =            Remove image dimension attributes            =
+            =========================================================*/
+
+            function removeImgDimAttr(){
+                if(carouselResizeType == 'scaled'){
+                    $carouselOrigItem.find('img.' + carouselItemMediaCls).removeAttr('height width');
+                } 
+            }
+            
+            /*========================================
+            =            Carousel Ht init            =
+            ========================================*/
+            
+            function carouselHtValReset(){
+                if(carouselHtType == 'shortest'){
+                    carouselHt = 9999;
+                }else if(carouselHtType == 'longest'){
+                    carouselHt = 0;
+                }else{
+                    carouselHt = carouselHtType;
+                }
             }
 
             /*======================================
@@ -220,7 +296,6 @@
                         'margin-right' : carouselItemSpace
                     });
                 }
-                
             }
 
             /*=====================================
@@ -365,7 +440,7 @@
                     var $item = $(this);
                     var $mediaItem = $item.find('.'+carouselItemMediaCls);
                     numberSlide($item,totalItemsInSet += 1);
-                    storeOrigDimensions($item,$mediaItem);
+                    itemDataRatio($item,$mediaItem);
                     loadImages($item);
                     if(carouselHtType == 'shortest' || carouselHtType == 'tallest'){
                         calcCarouselHt($item);
@@ -377,7 +452,7 @@
             =            Store dimensions            =
             ========================================*/
             
-            function storeOrigDimensions($containerItem,$item){
+            function itemDataRatio($containerItem,$item){
                 if($item.attr('width') != undefined && $item.attr('height') != undefined){
                     var itemRatio = $item.attr('width') / $item.attr('height');
                 }else{
@@ -433,12 +508,21 @@
                 itemDetailsArr = [];
                 //reset Set Wid
                 setWid = 0;
+                //Reset height value to compare
+                if((carouselHtType == 'shortest' && hasBeenScaled) || (carouselHtType == 'tallest' && hasBeenScaled)){
+                    carouselHtValReset();
+                }
                 $carouselOrigItem.each(function(idx){
                     var $item = $(this);
-                    $item.width('auto');
+                    $item.width('auto').removeClass(croppedCls);;
                     itemWid = $item.width();
                     setItemDim(idx,$item,itemWid);
+                    
                     pushSetItems(itemWid);
+                    if((carouselHtType == 'shortest' && hasBeenScaled) || (carouselHtType == 'tallest' && hasBeenScaled)){
+                        calcCarouselHt($item);
+                        $item.find('img.' + carouselItemMediaCls).removeAttr('height width');
+                    }
                 });
             }
             
@@ -448,16 +532,24 @@
             
             function setItemDim(idx,$item,itemWid2){
                 var $adjustItem = $carousel.find('.' + carouselItemNumPrefix + idx);
-                if(itemWid2 >= carouselContainerWid){
+                itemWid2 += carouselItemSpace;
+                if(carouselResizeType == 'cropped' && itemWid2 >= carouselContainerWid){
                     itemWid = carouselContainerWid;
                     $adjustItem
                         .width(itemWid)
                         .addClass(croppedCls);
                     hasBeenCropped = true;
+                }else if(itemWid2 >= carouselContainerWid){
+                    itemWid = carouselContainerWid;
+                    $adjustItem
+                        .width(itemWid)
+                        .addClass(scaledCls);
+                    hasBeenScaled = true;
+                    var $vid = $item.find('iframe');
                 }else{
-                    itemWid = itemWid + carouselItemSpace;
+                    itemWid += carouselItemSpace;
                     //If screen has been small enough once to crop then undo crop
-                    if(hasBeenCropped){
+                    if(hasBeenCropped || hasBeenScaled){
                         $adjustItem
                             .removeAttr('style')
                             .removeClass(croppedCls);
@@ -579,7 +671,9 @@
                         var goToItemNum = $link.attr(itemNumAttr);
                         //Check if it's not the already active link
                         if(activeItemNum != goToItemNum){
-                            setThumbNavActive($link)
+                            if(thumbNav){
+                                setThumbNavActive($link)
+                            }
                             animCarousel(goToItemNum);
                         }
                     });
@@ -595,7 +689,9 @@
                      $(this).attr(itemNumAttr,i);
                      //add active to first on load
                      if(i == 0){
-                        setThumbNavActive($(this));
+                        if(thumbNav){
+                            setThumbNavActive($(this));
+                        }
                      }
                 });
             }
@@ -632,10 +728,14 @@
             function forwardsByOne(){
                 var goToNum = activeItemNum + 1;
                 //If going to the next set then reset count to 0
-                setThumbNavActive($carouselNavItemActive.next());
+                if(thumbNav){
+                    setThumbNavActive($carouselNavItemActive.next());
+                }
                 if(goToNum > totalItemsInSet){
                     goToNum = 0;
-                    setThumbNavActive($carouselNavItem.first());
+                    if(thumbNav){
+                        setThumbNavActive($carouselNavItem.first());
+                    }
                 }
                 animCarousel(goToNum,'forwards');
             }
@@ -647,10 +747,14 @@
             function backwardsByOne(){
                 var goToNum = activeItemNum - 1;
                 //If going to the next set then reset count to last item in item array num
-                setThumbNavActive($carouselNavItemActive.prev());
+                if(thumbNav){
+                    setThumbNavActive($carouselNavItemActive.prev());
+                }
                 if(goToNum < 0){
                     goToNum = totalItemsInSet;
-                    setThumbNavActive($carouselNavItem.last());
+                    if(thumbNav){
+                        setThumbNavActive($carouselNavItem.last());
+                    }
                 }
                 animCarousel(goToNum,'backwards');
             }
@@ -660,15 +764,20 @@
             =======================================*/
             
             function revealCarousel(){
-                setTimeout(function(){
-                    $activeItem.addClass(itemVisibleCls);
-                }, 500);
-
-                setTimeout(function(){
-                    $carouselItem.addClass(itemVisibleCls);
-                }, 1500); 
+                var $itemImages = $carouselItem.find('img.' + carouselItemMediaCls);
+                var itemImagesTotal = $itemImages.length;
+                $itemImages.load(function(){
+                    imagesLoaded++;
+                    if(imagesLoaded == itemImagesTotal){
+                        setTimeout(function(){
+                            $activeItem.addClass(itemVisibleCls);
+                            setTimeout(function(){
+                                $carouselItem.addClass(itemVisibleCls);
+                            }, 800); 
+                        }, 500);
+                    }
+                });
             }
-            
         });  
       // returns the jQuery object to allow for chainability.  
       return this;  

@@ -93,6 +93,7 @@
 			<li>Better loading of images to look smoother</li>
 			<li>More reliable video scaling </li>
 			<li>More robust at all screen sizes</li>
+			<li>Choose whether to resize or crop images at smaller screen sizes</li>
 			<li>Must include image and video dimensions – solves a lot of headaches with image loading and calculations</li>
 		</ul>
 		<h2>How to use</h2>
@@ -189,7 +190,7 @@ $(function(){
 						<td><strong>nextLinkCls</strong></td>
 						<td>'paw-carousel-next'</td>
 						<td>Any valid class name</td>
-						<td>The class of the next link</td>
+						<td>The class of the next link.</td>
 					</tr>
 					<tr>
 						<td><strong>prevLinkCls</strong></td>
@@ -226,7 +227,7 @@ $(function(){
 						<td><strong>alignment</strong></td>
 						<td>'center'</td>
 						<td>'center', 'left', 'right'</td>
-						<td>Aligned the active item to the left, right or center of the carousel</td>
+						<td>Aligned the active item to the left, right or center of the carousel.</td>
 					</tr>
 					<tr>
 						<td><strong>setsEachSide</strong></td>
@@ -238,9 +239,16 @@ $(function(){
 						<td><strong>carouselHtType</strong></td>
 						<td>'shortest'</td>
 						<td>'shortest', 'tallest' or any positive integer/number</td>
-						<td>'shortest' crops slideshow height to the shortest item (excluding videos); 'tallest' sets the slideshow to the tallest item (excluding videos); an integer/number will set the slideshow to this height (in px)</td>
+						<td>'shortest' crops slideshow height to the shortest item (excluding videos).
+						<br/>'tallest' sets the slideshow to the tallest item (excluding videos); an integer/number will set the slideshow to this height (in px).</td>
 					</tr>
-					
+					<tr>
+						<td><strong>carouselResizeType</strong></td>
+						<td>'cropped'</td>
+						<td>'cropped', 'scaled'</td>
+						<td>'cropped' at smaller screensizes retains the original item height and crops in the sides of the item – the image is centrally aligned.
+						<br/>'scaled' shows all the image at any screen size; however, this does mean carousels can become short at smaller screen sizes + if you have any wide images.</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
@@ -251,11 +259,30 @@ $(function(){
 			<h3>What browsers does this work in?</h3>
 			<p>Older versions of Firefox, Safari and Chrome; as well as IE7+. IE 7 &amp; 8 may have animation/performance issues depending on how many images you have.</p>
 			<h3>Can I have images at different sizes?</h3>
-			<p>The carousel looks best when the images are the same height, but can be any width.</p>
+			<p>The carousel looks best when the images are the same height, but can be any width. The carousel by default will set it's height to the shortest image.</p>
 			<h3>What happens to different width images at narrower screen &amp; mobile sizes?</h3>
-			<p>The images will be cropped in from the sides leaving the centre of the images. If we scaled the images keeping their ratio the carousel tends to becomes comically short.</p>
+			<p>The images will be cropped in from the sides leaving the centre of the images. If we scaled the images keeping their ratio the carousel tends to becomes comically short. Edit: Added the option to show the full image at all screen sizes is set through the 'carouselResizeType' option (see above).</p>
+			<h3>How to include image height and width dynamically through CMSs?</h3>
+			<p>Any CMS worth it's salt provides a plugin architecture for you. I used the PHP func getimagesize() to get each image's dimensions. Here's a MODX plugin as an example:</p>
+
+<pre><code>&lt;?php
+$o = '';
+$src = $modx->getOption('src',$scriptProperties, null);
+//Doesn't find image if prepended with root slash. So remove if present
+if(substr($src , 0, 1 ) === '/'){
+	$src = substr($src, 1);
+}
+//Doesn't want the %20 space replace in src, just plain old spaces
+$src = str_replace('%20', ' ', $src);
+$imagesize = getimagesize($src);
+$width = $imagesize[0];
+$height = $imagesize[1];
+// I know you're not meant to output HTML, but I don't want to create templates for this
+$o = 'width="' . $width . '" height="' . $height . '" ';
+return $o;</code></pre>
+
 			<h3>Why not generate more of the markup through JS?</h3>
-			<p>I may change my mind about it the future, but I like to keep the JS small and lean. I am aware it could help eliminate human error e.g. forgetting to add the inner 'paw-carousel-media' DIV.</p>
+			<p>I may change my mind about it the future, but I like to keep the JS small and lean. I am aware it could help eliminate human error e.g. forgetting to add the inner 'paw-carousel-items-wrap' DIV.</p>
 			<h3>Code Copyright and License</h3>
 			<p>&copy; Copyright 2014 Shaun Morrison. The PaW Carousel code is licensed under the GPL – <a href="http://www.gnu.org/licenses/gpl.html" title="View the GNU GPLv3 licence">http://www.gnu.org/licenses/gpl.html</a> license.</p>
 			<h3>Images / Photos Copyright</h3>
@@ -269,7 +296,7 @@ $(function(){
 		</div>
 	</div>
 	<footer>
-		&copy; 2014 Pictures &amp; Writing / Shaun Morrison. All rights reserved.
+		&copy; 2014 <a href="http://picturesandwriting.com" title="Responsive web design">Pictures &amp; Writing</a> / Shaun Morrison. All rights reserved.
 	</footer>
 </body>
 </html>

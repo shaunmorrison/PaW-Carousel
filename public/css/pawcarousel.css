@@ -12,6 +12,8 @@
 /*Transparent masks on either side of the carousel - remove if you don't need*/
 .paw-carousel-mask-l, .paw-carousel-mask-r { position: absolute; height: 100%; width: 9999px; background: url(../images/trans-light.png); z-index: 102; top: 0; }
 
+.paw-carousel-item iframe, .paw-carousel-item-media { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0); opacity: 0; }
+
 .paw-carousel-mask-l { left: -9999px; }
 
 .paw-carousel-mask-r { right: -9999px; }
@@ -23,9 +25,11 @@
 .paw-carousel-item { float: left; position: relative !important; margin-right: 2px; max-width: 100%; }
 .paw-carousel-item.active { background: url(../images/ajax-loader.gif) center no-repeat; }
 .paw-carousel-item h3 { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70); opacity: 0.7; position: absolute; z-index: 2; top: 10px; left: 10px; padding: 5px; font-size: 12px; font-weight: 600; line-height: 140%; background: #000; color: #fff; }
-.paw-carousel-item.cropped { margin-right: 0; overflow: hidden; text-align: center; }
-.paw-carousel-item.cropped .paw-carousel-item-media { width: auto; display: inline-block; }
-.paw-carousel-item.cropped .paw-carousel-item-vid { width: 100% !important; }
+.paw-carousel-item.cropped { margin-right: 0; overflow: hidden; text-align: center; height: 100%; }
+.paw-carousel-item.cropped img.paw-carousel-item-media { position: absolute; top: -9999px; bottom: -9999px; left: -9999px; right: -9999px; margin: auto; max-width: 9999px; }
+.paw-carousel-item.cropped .paw-carousel-item-vid { display: inline-block; width: 100% !important; }
+.paw-carousel-item.scaled { margin-right: 0; height: auto; }
+.paw-carousel-item.scaled .paw-carousel-item-media { width: 100%; }
 .paw-carousel-item.paw-carousel-item-visible { background: none; }
 .paw-carousel-item.paw-carousel-item-visible .paw-carousel-item-media { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=10000); opacity: 100; }
 
@@ -33,7 +37,7 @@
 
 .paw-caoursel-item-vid-foundation { max-width: 100%; }
 
-.paw-carousel-item-media { -moz-transition: opacity, 0.8s; -o-transition: opacity, 0.8s; -webkit-transition: opacity, 0.8s; transition: opacity, 0.8s; filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0); opacity: 0; display: block; z-index: 1; max-width: 9999px; }
+.paw-carousel-item-media { -moz-transition: opacity, 0.8s; -o-transition: opacity, 0.8s; -webkit-transition: opacity, 0.8s; transition: opacity, 0.8s; display: block; z-index: 1; max-width: 100%; }
 
 /*===================================
 =            Control nav            =
