@@ -1,5 +1,5 @@
 /*
- * PaW Carousel - Version: 2.0
+ * PaW Carousel - Version: 2.1
  * http://picturesandwriting.com
  * Copyright (c) 2014 Shaun Morrison; Licensed: GPL
  * Requires: jQuery v1.7 or later
