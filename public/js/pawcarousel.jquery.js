@@ -1,5 +1,5 @@
 /*
- * PaW Carousel - Version: 2.1
+ * PaW Carousel - Version: 2.1.1
  * http://picturesandwriting.com
  * Copyright (c) 2014 Shaun Morrison; Licensed: GPL
  * Requires: jQuery v1.7 or later
@@ -113,7 +113,6 @@
             videoInit();
             setCalcItems();
             videoScaleResize();
-            removeImgDimAttr();
             storeOrigItems();
             for(var i = 0; i < setsEachSide; i++){
                 addSet('before');
@@ -129,7 +128,6 @@
             /*==================================================
             =            On screen resize functions            =
             ==================================================*/
-            
 
             var resizeListener = function(){
               $(window).one("resize",function(){ //unbinds itself every time it fires
@@ -151,7 +149,6 @@
               });
             }
             resizeListener();
-            
             
             /*===============================================
             =            Check Screen Dimensions            =
@@ -258,16 +255,6 @@
                 $vid
                     .before(videoFoundationEl)
                     .addClass(videoCls);
-            }
-
-            /*=========================================================
-            =            Remove image dimension attributes            =
-            =========================================================*/
-
-            function removeImgDimAttr(){
-                if(carouselResizeType == 'scaled'){
-                    $carouselOrigItem.find('img.' + carouselItemMediaCls).removeAttr('height width');
-                } 
             }
             
             /*========================================
@@ -521,7 +508,6 @@
                     pushSetItems(itemWid);
                     if((carouselHtType == 'shortest' && hasBeenScaled) || (carouselHtType == 'tallest' && hasBeenScaled)){
                         calcCarouselHt($item);
-                        $item.find('img.' + carouselItemMediaCls).removeAttr('height width');
                     }
                 });
             }
@@ -556,7 +542,6 @@
                     }
                 }
             }
-            
 
             /*==========================================
             =            Measure orig items            =
