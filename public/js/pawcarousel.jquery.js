@@ -1,5 +1,5 @@
 /*
- * PaW Carousel - Version: 2.1.1
+ * PaW Carousel - Version: 2.1.2
  * http://picturesandwriting.com
  * Copyright (c) 2014 Shaun Morrison; Licensed: GPL
  * Requires: jQuery v1.7 or later
@@ -71,6 +71,7 @@
             var carouselContainerWid = 0;
             var setWid = 0;
             var itemWid = 0;
+            var itemHt = 0;
             var carouselContainerHt = 0;
             var carouselItemsWrapWid = 0;
             var setCount = 1;
@@ -128,7 +129,7 @@
             /*==================================================
             =            On screen resize functions            =
             ==================================================*/
-
+            
             var resizeListener = function(){
               $(window).one("resize",function(){ //unbinds itself every time it fires
                 //Cheers IE8 for having to put the window size check in
@@ -340,7 +341,6 @@
                     goToFirstAfterOrig();
                     sansAlignAnimVal = -setWid - (setWid * setsEachSide) + itemDetailsArr[totalItemsInSet].itemWid;
                     finalAnimVal = -setWid - (setWid * setsEachSide) + itemDetailsArr[totalItemsInSet].itemWid + alignmentVal; 
-
                 }else{
                     if(goToNum > 0){
                         itemPosFromStart = itemDetailsArr[goToNum - 1].itemPosFromStart;
@@ -353,7 +353,6 @@
                 }
                 stopVideo($prevActiveItem,prevActiveItemNum);
             }
-            
 
             /*=======================================
             =            alignment Value            =
@@ -415,7 +414,6 @@
                         'left' : finalAnimVal
                     }, animSpeed);
                 }
-                
             }
 
             /*======================================
@@ -504,9 +502,9 @@
                     $item.width('auto').removeClass(croppedCls);;
                     itemWid = $item.width();
                     setItemDim(idx,$item,itemWid);
-                    
                     pushSetItems(itemWid);
                     if((carouselHtType == 'shortest' && hasBeenScaled) || (carouselHtType == 'tallest' && hasBeenScaled)){
+                        $item.find('img.' + carouselItemMediaCls).removeAttr('height width');
                         calcCarouselHt($item);
                     }
                 });
@@ -527,11 +525,14 @@
                     hasBeenCropped = true;
                 }else if(itemWid2 >= carouselContainerWid){
                     itemWid = carouselContainerWid;
+                    calcItemHt($item);
                     $adjustItem
                         .width(itemWid)
                         .addClass(scaledCls);
+                    if(itemHt > 0){
+                        $adjustItem.height(itemHt);
+                    }
                     hasBeenScaled = true;
-                    var $vid = $item.find('iframe');
                 }else{
                     itemWid += carouselItemSpace;
                     //If screen has been small enough once to crop then undo crop
@@ -540,6 +541,18 @@
                             .removeAttr('style')
                             .removeClass(croppedCls);
                     }
+                }
+            }
+
+            /*=============================================
+            =            Calculate item height            =
+            =============================================*/
+            
+            function calcItemHt($item){
+                var $img = $item.find('img.' + carouselItemMediaCls);
+                if($img.length){
+                    var imgHt = carouselContainerWid / $img.attr(origRatioAttr);
+                    itemHt = imgHt.toFixed(0);
                 }
             }
 
@@ -609,7 +622,6 @@
                 }
             }
 
-           
             /*================================================
             =            Detect if retina display            =
             ================================================*/
@@ -632,7 +644,6 @@
             function carouselItemsWrapDimensions(){
                 carouselItemsWrapWid = setWid * setCount;
                 $carouselItemsWrap.width(carouselItemsWrapWid);
-
             }
             
             /*==============================================
