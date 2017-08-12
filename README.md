@@ -38,7 +38,7 @@ Add the HTML to your page e.g.
 			&lt;/div>
 			&lt;div class="paw-carousel-item">
 				&lt;a href="http://picturesandwriting.com" title="A link to Shaun's portolfio site">
-					&lt;img src="images/x.gif" data-src="assets/media/egs/eg-02.jpg" data-src-2x="assets/media/egs/eg-02@2x.jpg" width="494" height="370" class="paw-carousel-item-media"">
+					&lt;img src="images/x.gif" data-src="assets/media/egs/eg-02.jpg" data-src-2x="assets/media/egs/eg-02@2x.jpg" width="494" height="370" class="paw-carousel-item-media">
 					&lt;h3>This image has a link&lt;/h3>
 				&lt;/a>
 			&lt;/div>
